@@ -1,0 +1,5 @@
+.idea/
+.idea/*
+node_modules/*
+.vscode/
+src/assets/raw_assets/*
