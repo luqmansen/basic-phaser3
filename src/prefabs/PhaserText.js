@@ -28,11 +28,13 @@ class PhaserText {
         switch (key.toLowerCase()) {
 
             case 'title':
-                style.fontsize = 64;
+                style.fontsize = 30;
                 break
-            case 'preload':
-                style.fontsize = 48;
+            case 'standard':
+                style.fontsize = 20;
                 break
+            case 'game-label':
+                style.fontsize = 16;
         }
         return style
     }

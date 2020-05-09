@@ -30,10 +30,8 @@ class Menu extends Phaser.Scene {
             'standard'
         );
 
-        // Mouse input
         this.createMouseInput();
 
-        // Keyboard Input
         this.createKeyboardInput();
 
     }

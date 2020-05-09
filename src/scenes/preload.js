@@ -14,21 +14,33 @@ class Preload extends Phaser.Scene {
         this.createBackground();
         this.createLoadingBar()
 
-        // Spritesheets
+        // Image
         this.load.setPath(this.URL + 'src/assets/img')
-        this.load.spritesheet('spr-cat', 'spr-cat.png', {frameWidth:16, frameHeight:16,endFrame:4, margin: 1, spacing: 2})
+        this.load.spritesheet('spr-cat', 'spr-cat.png', {frameWidth:31, frameHeight:33,endFrame:11, margin: 0, spacing: 0})
+        this.load.image('sky',   'sky.png');
+        this.load.image('ground', 'platform.png');
+        this.load.image('star', 'star.png');
+        this.load.image('bomb', 'bomb.png');
+        this.load.image('bg', 'background.png');
+
+        this.load.setPath(this.URL + 'src/assets/spr')
+        this.load.spritesheet('ship', 'ship.png', {frameWidth:16, frameHeight: 16});
+        this.load.spritesheet('ship2', 'ship2.png', {frameWidth:32, frameHeight: 16});
+        this.load.spritesheet('ship3', 'ship3.png', {frameWidth:32, frameHeight: 32});
+        this.load.spritesheet('explosion', 'explosion.png', {frameWidth:16, frameHeight: 16});
+        this.load.spritesheet('power-up', 'power-up.png', {frameWidth:16, frameHeight: 16});
+        this.load.spritesheet('beam', 'ball.png', {frameWidth:99, frameHeight: 94});
+
     }
 
     create(){
-        this.time.addEvent({
-            delay : 100,
-            callback: () => {this.scene.start('Menu');},
-            callbackScope : this
-        });
+        this.scene.start('Play');
+        this.createAnimation()
+
     }
 
     createLoadingBar(){
-        this.title = new Text();
+        // this.title = new Text();
         //Progress text
         this.txt_progress = new PhaserText(
             this,
@@ -76,5 +88,81 @@ class Preload extends Phaser.Scene {
         this.bg = this.add.graphics({x: 0, y:0})
         this.bg.fillStyle('0xF5CCA1',1)
         this.bg.fillRect(0,0, this.CONFIG.width,this.CONFIG.height)
+    }
+
+    createAnimation(){
+        this.anims.create({
+            key: "ship1_anim",
+            frames: this.anims.generateFrameNumbers("ship"),
+            frameRate:20,
+            repeat: -1
+        });
+
+        this.anims.create({
+            key: "ship2_anim",
+            frames: this.anims.generateFrameNumbers("ship2"),
+            frameRate:20,
+            repeat: -1
+        });
+
+
+        this.anims.create({
+            key: "ship3_anim",
+            frames: this.anims.generateFrameNumbers("ship3"),
+            frameRate:20,
+            repeat: -1
+        });     
+
+
+        this.anims.create({
+            key: "explode",
+            frames: this.anims.generateFrameNumbers("explosion"),
+            frameRate:20,
+            repeat: 0,
+            hideOnComplete: true
+        })
+
+        this.anims.create({
+            key: "red",
+            frames: this.anims.generateFrameNumbers("power-up",
+            {
+                start: 0,
+                end : 1
+            }),
+            frameRate:20,
+            repeat: -1,
+        })
+
+        this.anims.create({
+            key: "gray",
+            frames: this.anims.generateFrameNumbers("power-up", {
+                start: 2,
+                end : 3
+            }),
+            frameRate:20,
+            repeat: -1,
+        })
+
+        this.anims.create({
+            key: "cat",
+            frames: this.anims.generateFrameNumbers("spr-cat",
+            {
+                start:9,
+                end:11
+            }),
+            frameRate:5,
+            repeat: -1,
+        })
+
+        this.anims.create({
+            key: "beam_anim",
+            frames: this.anims.generateFrameNumbers("beam",
+            {
+                start:0,
+                end:8
+            }),
+            frameRate:5,
+            repeat: -1,
+        })
     }
 }

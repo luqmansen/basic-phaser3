@@ -10,30 +10,31 @@ App.prototype.start = function ()
 {
     'use strict'
     
-
-    // Scenes
     let scenes = [];
     scenes.push(Boot);
     scenes.push(Preload);
     scenes.push(Menu);
+    scenes.push(Play);
 
-    // Game config
     const config = {
         type            : Phaser.AUTO,
         parent          : 'phaser-app',
         title           : 'Phaser-Boilerplate', // CHANGE ME
         url             : 'https://github.com/luqmansen/phaser3-boilerplate', // CHANGE ME
-        width           : 360,
-        height          : 640,
+        width           : 256,
+        height          : 272,
         scene           : scenes,
         pixelArt        : true,
-        backgroundColor : '0x000000'
+        physics         : {
+            default : "arcade",
+            arcade  :{
+                debug : false
+            }
+        }
     }
 
-    // Game app
     let game = new Phaser.Game(config)
     
-    // Globals
     game.IS_DEV = this.IS_DEV;
     game.VERSION = this.VERSION;
 
