@@ -31,6 +31,14 @@ class Preload extends Phaser.Scene {
         this.load.spritesheet('power-up', 'power-up.png', {frameWidth:16, frameHeight: 16});
         this.load.spritesheet('beam', 'ball.png', {frameWidth:99, frameHeight: 94});
 
+        this.load.setPath(this.URL + 'src/assets/audio')
+        this.load.audio('audio_beam', 'laserfire01.ogg')
+        this.load.audio('audio_pickup', 'SFX_Pickup_44.mp3')
+        this.load.audio('audio_explosion', 'explosion.wav')
+        this.load.audio('bgm', 'platformer-level-08.mp3')
+
+
+
     }
 
     create(){

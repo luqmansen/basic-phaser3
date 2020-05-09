@@ -12,6 +12,7 @@ class Play extends Phaser.Scene{
 
 
     create(){
+        this.createAudio()
         this.bg = this.add.tileSprite(0, 0, this.CONFIG.width, this.CONFIG.height,"bg");
         this.bg.setOrigin(0,0)
         
@@ -135,10 +136,12 @@ class Play extends Phaser.Scene{
     shootBeam(){
         var beam = new Beam(this)
         beam.setScale(0.2)
+        this.beamSound.play()
     }
 
     pickPowerUp(player,powerUp){
         powerUp.disableBody(true, true)
+        this.pickupSound.play()
     }
 
     hurtPlayer(player, enemy){
@@ -150,7 +153,7 @@ class Play extends Phaser.Scene{
         
         var explosion = new Explosion(this, player.x, player.y)
         player.disableBody(true,true)
-        
+        this.explosionSound.play()
         this.time.addEvent({
             delay:1000,
             callback: this.resetPlayer,
@@ -188,9 +191,33 @@ class Play extends Phaser.Scene{
         this.resetShipPos(enemy)
         this.score +=5
         this.scoreLabel.text = "SCORE " + this.score;
+        this.explosionSound.play()
     }
 
     createLabel(){
         this.scoreLabel = this.add.bitmapText(10,5, "ClickPixel", "SCORE", 16)
+    }
+
+    createAudio(){
+        this.beamSound = this.sound.add("audio_beam")
+        this.explosionSound = this.sound.add("audio_explosion")
+        this.pickupSound = this.sound.add("audio_pickup")
+        this.createBGM()
+    }
+
+    createBGM(){
+
+        this.music = this.sound.add("bgm")
+
+        var musicConfig = {
+            mute : false,
+            volume :1,
+            rate:1,
+            detune:0,
+            seek:0,
+            loop:true,
+            delay:0
+        }
+        this.music.play(musicConfig)
     }
 }
