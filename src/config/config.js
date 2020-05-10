@@ -3,7 +3,7 @@ import Phaser from "phaser";
 export default {
   type: Phaser.AUTO,
   parent: "phaser-app",
-  title: "Space\nCade (^w^)", 
+  title: "SPACE\nCADE", 
   url: "https://github.com/luqmansen/space-cade", 
   width: 500,
   centerX: 500/2,

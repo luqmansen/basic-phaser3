@@ -1,110 +1,106 @@
-
-
 export default class PhaserText {
+  constructor(ctx, x, y, string, fontsize, origin) {
+    this.text = string;
 
-    constructor(ctx, x, y, string, fontsize, origin) {
-        this.text = string
+    this.style = this.initStyle(fontsize);
+    this.origin = this.initOrigin(origin);
+    this._x = x;
+    this._y = y;
+    this._string = string;
+    this._origin = origin;
+    this._ctx = ctx;
+    this._obj = this.createText();
+  }
 
-        this.style = this.initStyle(fontsize);
-        this.origin = this.initOrigin(origin);
-        this._x = x;
-        this._y = y;
-        this._string = string;
-        this._origin = origin;
-        this._ctx = ctx;
-        this._obj = this.createText();
+  initStyle(fontsize) {
+    let style = {
+      fontFamily: "ClickPixel",
+      fontsize: fontsize,
+      color: "0xFFFFFF",
+      align: "center",
+    };
+    return style;
+  }
+
+  initOrigin(origin) {
+    if (typeof origin === "number") {
+      return {
+        x: origin,
+        y: origin,
+      };
+    } else if (typeof origin === "object") {
+      return origin;
+    } else {
+      return {
+        x: 0.5,
+        y: 0.5,
+      };
     }
+  }
 
-    initStyle(fontsize){
-        let style = {
-            fontFamily  : 'ClickPixel',
-            fontsize    : fontsize,
-            color       : '0xFFFFFF',
-            align       : 'center'
-        }
-        return style
-    }
+  createText() {
+    let obj = this._ctx.add.bitmapText(
+      this._x,
+      this._y,
+      this.style.fontFamily,
+      this.text,
+      this.style.fontsize,
+      this.style.align
+    );
 
-    initOrigin(origin){
-        if (typeof origin === 'number'){
-            return{
-                x : origin,
-                y : origin
-            }
-        } else if (typeof origin === 'object'){
-            return origin
-        } else {
-            return {
-                x : 0.5,
-                y: 0.5
-            }
-        }
-    }
+    obj.setOrigin(this.origin.x, this.origin.y);
+    return obj;
+  }
 
-    createText(){
-        let obj = this._ctx.add.bitmapText(
-            this._x,
-            this._y,
-            this.style.fontFamily,
-            this.text,
-            this.style.fontsize,
-            this.style.align
-        );
+  destroy() {
+    this._obj.destroy();
+    this._obj = false;
+  }
 
-        obj.setOrigin(this.origin.x, this.origin.y)
-        return obj;
-    }
+  setText(string) {
+    this.text = string;
+    this._obj.setText(string);
+  }
 
-    destroy(){
-        this._obj.destroy()
-        this._obj = false
-    }
+  setX(x) {
+    this.x = x;
+    this._obj.setX(x);
+  }
 
+  setY(y) {
+    this.y = y;
+    this._obj.setY(y);
+  }
 
-    setText(string) {
-        this.text = string;
-        this._obj.setText(string)
-    }
+  setOrigin(origin) {
+    this.origin = this.initOrigin(origin);
+    this._obj.setOrigin(origin);
+  }
 
-    setX(x) {
-        this.x = x;
-        this._obj.setX(x);
-    }
+  setDepth(depth) {
+    this._obj.setDepth(depth);
+  }
 
-    setY(y) {
-        this.y = y;
-        this._obj.setY(y);
-    }
+  setScrollFactor(scrollX, scrollY) {
+    this._obj.setScrollFactor(scrollX, scrollY);
+  }
 
-    setOrigin(origin){
-        this.origin = this.initOrigin(origin)
-        this._obj.setOrigin(origin)
-    }
+  getCenter() {
+    return this._obj.getCenter();
+  }
+  getTopLeft() {
+    return this._obj.getTopLeft();
+  }
 
-    setDepth(depth){
-        this._obj.setDepth(depth)
-    }
+  getTopRight() {
+    return this._obj.getTopRight();
+  }
 
-    setScrollFactor(scrollX,scrollY){
-        this._obj.setScrollFactor(scrollX,scrollY)
-    }
+  getBottomLeft() {
+    return this._obj.getBottomLeft();
+  }
 
-    getCenter(){
-        return this._obj.getCenter()
-    }
-    getTopLeft(){
-        return this._obj.getTopLeft()
-    }
-
-    getTopRight(){
-        return this._obj.getTopRight()
-    }
-
-    getBottomLeft(){
-        return this._obj.getBottomLeft()
-    }
-
-    getBottomRight(){
-        return this._obj.getBottomRight()
-    }
+  getBottomRight() {
+    return this._obj.getBottomRight();
+  }
 }

@@ -23,11 +23,12 @@ export default class Preload extends Phaser.Scene {
         this.createBackground();
         this.createLoadingBar();
 
-        this.load.image('sky', images['sky.png']);
-        this.load.image('ground', images['platform.png']);
-        this.load.image('star', images['star.png']);
-        this.load.image('bomb', images['bomb.png']);
+        // this.load.image('sky', images['sky.png']);
+        // this.load.image('ground', images['platform.png']);
+        // this.load.image('star', images['star.png']);
+        // this.load.image('bomb', images['bomb.png']);
         this.load.image('bg', images['background.png']);
+        this.load.image('menu-bg', images['space-cade.jpg']);
 
         this.load.spritesheet('spr-cat', sprites['spr-cat.png'], {frameWidth:31, frameHeight:33,endFrame:11, margin: 0, spacing: 0})
         this.load.spritesheet('ship', sprites['ship.png'], {frameWidth:16, frameHeight: 16});
