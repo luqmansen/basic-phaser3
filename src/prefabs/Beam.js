@@ -1,15 +1,14 @@
 export default class Beam extends Phaser.GameObjects.Sprite {
-  constructor(scene) {
-    var x = scene.player.x + 40;
-    var y = scene.player.y + 26;
-
-    super(scene, x, y, "beam");
+  constructor(scene, x, y) {
+    // these number to make sure beam shots in front of player
+    super(scene, x + 50, y + 26, "beam");
 
     scene.add.existing(this);
     scene.projectiles.add(this);
-
-    this.play("beam_anim");
     scene.physics.world.enableBody(this);
+
+    this.scene.sound.add("audio_beam").play();
+    this.play("beam_anim");
     this.body.velocity.y = -250;
   }
 

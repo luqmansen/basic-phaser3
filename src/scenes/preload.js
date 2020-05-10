@@ -72,7 +72,13 @@ export default class Preload extends Phaser.Scene {
 
   create() {
     this.createAnimation();
+
+    if (CONFIG.IS_DEV == true){
+      this.scene.start("Play");
+    }
+    
     this.scene.start("Menu");
+
   }
 
   createLoadingBar() {

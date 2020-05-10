@@ -20,11 +20,10 @@
     "webpack-merge": "^4.2.2"
   },
   "dependencies": {
-    "audio-loader": "^1.0.3",
     "phaser": "^3.20.1"
   },
   "scripts": {
-    "build": "parallel-webpack -p=8 --config=webpack/prod.js",
+    "build": "parallel-webpack --config=webpack/prod.js",
     "start": "webpack-dev-server --config webpack/base.js --hot"
   },
   "repository": {

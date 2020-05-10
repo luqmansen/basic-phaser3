@@ -3,6 +3,7 @@ import CONFIG from "../config/config";
 import Beam from "../prefabs/Beam";
 import Explosion from "../prefabs/Explosion";
 import { randInt } from "../prefabs/Helper";
+import Player from "../prefabs/Player";
 
 export default class Play extends Phaser.Scene {
   constructor() {
@@ -21,8 +22,8 @@ export default class Play extends Phaser.Scene {
   create() {
     this.createBG();
     this.createLabel();
-
     this.createAudio();
+
     this.ship2 = this.add.sprite(
       CONFIG.width / 2 - 20,
       CONFIG.height / 2,
@@ -39,13 +40,12 @@ export default class Play extends Phaser.Scene {
       "ship3"
     );
 
-    this.player = this.physics.add.sprite(
+    this.player = new Player(
+      this,
       CONFIG.width / 2 - 8,
       CONFIG.height - 64,
       "cat"
     );
-    this.player.play("cat");
-    this.player.setCollideWorldBounds(true);
 
     this.powerUps = this.physics.add.group();
 
@@ -80,10 +80,6 @@ export default class Play extends Phaser.Scene {
     this.enemies.add(this.ship3);
 
     this.input.on("gameobjectdown", this.destroyShip, this);
-    this.cursorKeys = this.input.keyboard.createCursorKeys();
-    this.spacebar = this.input.keyboard.addKey(
-      Phaser.Input.Keyboard.KeyCodes.SPACE
-    );
 
     this.projectiles = this.add.group({
       classType: Beam,
@@ -98,20 +94,10 @@ export default class Play extends Phaser.Scene {
       projectile.destroy();
     });
 
-    this.physics.add.overlap(
-      this.player,
-      this.powerUps,
-      this.pickPowerUp,
-      null,
-      this
-    );
-    this.physics.add.overlap(
-      this.player,
-      this.enemies,
-      this.hurtPlayer,
-      null,
-      this
-    );
+
+    this.player.createPhysics(this.powerUps, this.player.pickPowerUp);
+    this.player.createPhysics(this.enemies, this.player.hurtPlayer);
+
     this.physics.add.overlap(
       this.projectiles,
       this.enemies,
@@ -126,13 +112,8 @@ export default class Play extends Phaser.Scene {
     this.moveShip(this.ship2, randInt(2, 7) * this.level * 0.5);
     this.moveShip(this.ship3, randInt(3, 6) * this.level * 0.5);
     this.bg.tilePositionY -= 0.5;
-    this.movePlayerManager();
 
-    if (Phaser.Input.Keyboard.JustDown(this.spacebar)) {
-      if (this.player.active) {
-        this.shootBeam();
-      }
-    }
+    this.player.playerInputManager();
 
     for (var i; i < this.projectiles.getChildren().length; i++) {
       var beam = this.projectiles.getChildren()[i];
@@ -166,78 +147,18 @@ export default class Play extends Phaser.Scene {
     gameObject.play("explode");
   }
 
-  movePlayerManager() {
-    if (this.cursorKeys.left.isDown) {
-      this.player.setVelocityX(-this.playerSpeed);
-    } else if (this.cursorKeys.right.isDown) {
-      this.player.setVelocityX(this.playerSpeed);
-    } else if (this.cursorKeys.up.isDown) {
-      this.player.setVelocityY(-this.playerSpeed);
-    } else if (this.cursorKeys.down.isDown) {
-      this.player.setVelocityY(this.playerSpeed);
-    } else {
-      this.player.setVelocityX(0);
-      this.player.setVelocityY(0);
-    }
-  }
-
-  shootBeam() {
-    var beam = new Beam(this);
-    beam.setScale(0.2);
-    this.beamSound.play();
-  }
-
   pickPowerUp(player, powerUp) {
     powerUp.disableBody(true, true);
     this.pickupSound.play();
   }
 
-  hurtPlayer(player, enemy) {
-    this.resetShipPos(enemy);
-
-    if (this.player.alpha < 1) {
-      return;
-    }
-
-    var explosion = new Explosion(this, player.x, player.y);
-    player.disableBody(true, true);
-    this.explosionSound.play();
-    this.time.addEvent({
-      delay: 1000,
-      callback: this.resetPlayer,
-      callbackScope: this,
-      loop: false,
-    });
-  }
-
-  resetPlayer() {
-    var x = CONFIG.width / 2 - 8;
-    var y = CONFIG.height + 64;
-    this.player.enableBody(true, x, y, true, true);
-
-    this.player.alpha = 0.5;
-
-    var tween = this.tweens.add({
-      targets: this.player,
-      y: y - 128,
-      ease: "Power1",
-      duration: 1500,
-      repeat: 0,
-      onComplete: function () {
-        this.player.alpha = 1;
-      },
-      callbackScope: this,
-    });
-  }
-
   hitEnemy(projectile, enemy) {
-    var explosion = new Explosion(this, enemy.x, enemy.y);
+    var explosion = new Explosion(this, enemy.x, enemy.y).setScale(2);
 
     projectile.destroy();
     this.resetShipPos(enemy);
     this.score.current += 5;
     this.scoreLabel.text = "SCORE " + this.score.current;
-    this.explosionSound.play();
   }
 
   levelManager() {
@@ -259,14 +180,8 @@ export default class Play extends Phaser.Scene {
     );
   }
 
-  createAudio() {
-    this.beamSound = this.sound.add("audio_beam");
-    this.explosionSound = this.sound.add("audio_explosion");
-    this.pickupSound = this.sound.add("audio_pickup");
-    this.createBGM();
-  }
 
-  createBGM() {
+  createAudio() {
     this.music = this.sound.add("bgm");
 
     var musicConfig = {

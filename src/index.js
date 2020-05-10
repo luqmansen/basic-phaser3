@@ -15,9 +15,6 @@ class Game extends Phaser.Game {
     this.scene.add("play", Play);
     this.scene.start("boot");
 
-    this.VERSION = "0.0.1";
-    this.IS_DEV = true;
-    this.sound_on = true;
   }
 }
 

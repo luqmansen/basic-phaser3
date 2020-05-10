@@ -1,6 +1,7 @@
 import Phaser from "phaser";
 
 export default {
+  VERSION: "0.0.1",
   type: Phaser.AUTO,
   parent: "phaser-app",
   title: "SPACE\nCADE",
@@ -17,4 +18,6 @@ export default {
     },
   },
   gameScale: 2,
+  IS_DEV: true,
+  sound_on: true,
 };
