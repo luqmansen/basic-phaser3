@@ -1,5 +1,5 @@
 {
-  "name": "phaser3-boilerplate",
+  "name": "space-cade",
   "version": "1.0.0",
   "description": "phaser3 project boilerplate",
   "main": "src/index.js",
@@ -29,7 +29,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/luqmansen/phaser3-boilerplate.git"
+    "url": "git+https://github.com/luqmansen/space-cade.git"
   },
   "keywords": [
     "phaser3",
@@ -39,7 +39,7 @@
   "author": "Luqman Setyo Nugroho <luqmansen@gmail.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/luqmansen/phaser3-boilerplate/issues"
+    "url": "https://github.com/luqmansen/space-cade/issues"
   },
-  "homepage": "https://github.com/luqmansen/phaser3-boilerplate#readme"
+  "homepage": "https://luqmansen.github.io/space-cade"
 }

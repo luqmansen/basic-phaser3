@@ -12,8 +12,8 @@ export default class Play extends Phaser.Scene {
   init() {
     this.playerSpeed = 200;
     this.score = {
-        current:0,
-        previous:0
+      current: 0,
+      previous: 0,
     };
     this.level = 1;
   }
@@ -123,8 +123,8 @@ export default class Play extends Phaser.Scene {
 
   update() {
     this.moveShip(this.ship1, randInt(1, 5) * this.level * 0.5);
-    this.moveShip(this.ship2, randInt(2, 7) * this.level* 0.5);
-    this.moveShip(this.ship3, randInt(3, 6) * this.level* 0.5);
+    this.moveShip(this.ship2, randInt(2, 7) * this.level * 0.5);
+    this.moveShip(this.ship3, randInt(3, 6) * this.level * 0.5);
     this.bg.tilePositionY -= 0.5;
     this.movePlayerManager();
 
@@ -139,7 +139,7 @@ export default class Play extends Phaser.Scene {
       beam.update();
     }
 
-    this.levelManager()
+    this.levelManager();
   }
 
   createBG() {
@@ -240,17 +240,23 @@ export default class Play extends Phaser.Scene {
     this.explosionSound.play();
   }
 
-  levelManager(){
-      if (this.score.current - this.score.previous >= 50){
-          this.score.previous = this.score.current
-          this.level++
-      }
-      this.levelLabel.text = "LEVEL " + this.level
+  levelManager() {
+    if (this.score.current - this.score.previous >= 50) {
+      this.score.previous = this.score.current;
+      this.level++;
+    }
+    this.levelLabel.text = "LEVEL " + this.level;
   }
 
   createLabel() {
     this.scoreLabel = this.add.bitmapText(10, 5, "ClickPixel", "SCORE", 16);
-    this.levelLabel = this.add.bitmapText(CONFIG.width* (3/4), 5, "ClickPixel", "LEVEL", 16);
+    this.levelLabel = this.add.bitmapText(
+      CONFIG.width * (3 / 4),
+      5,
+      "ClickPixel",
+      "LEVEL",
+      16
+    );
   }
 
   createAudio() {
