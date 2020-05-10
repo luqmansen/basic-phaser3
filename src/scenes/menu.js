@@ -20,16 +20,17 @@ export default class Menu extends Phaser.Scene {
             this,
             this.CONFIG.width/2,
             this.CONFIG.height/2 * 0.3,
-            'Phaser 3\nBoilerplate',
-            'title'
+            this.CONFIG.title,
+            30* this.CONFIG.gameScale,
         )
+        
 
         this.text = new PhaserText(
             this,
             this.CONFIG.width/2,
             this.CONFIG.height/2,
             'click to play',
-            'standard'
+            20 * this.CONFIG.gameScale,
         );
 
         this.createMouseInput();

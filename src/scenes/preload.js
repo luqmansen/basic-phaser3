@@ -21,7 +21,7 @@ export default class Preload extends Phaser.Scene {
 
     preload(){
         this.createBackground();
-        this.createLoadingBar()
+        this.createLoadingBar();
 
         this.load.image('sky', images['sky.png']);
         this.load.image('ground', images['platform.png']);
@@ -54,7 +54,7 @@ export default class Preload extends Phaser.Scene {
             this.CONFIG.centerX,
             75,
             'Loading Game',
-            'preload',
+            30 * CONFIG.gameScale,
             0.5
         )
         this.txt_progress = new PhaserText(
@@ -62,29 +62,17 @@ export default class Preload extends Phaser.Scene {
             this.CONFIG.centerX,
             this.CONFIG.centerY - 5,
             'Loading...',
-            'preload',
+            25 * CONFIG.gameScale,
             {x: 0.5, y : 1}
         )
-        //Progress bar
-        let x= 10
+        
+        //Progress 
+        let x= CONFIG.centerX
         let y = this.CONFIG.centerY + 5;
-        this.progress = this.add.graphics({x:x, y:y})
-        this.border = this.add.graphics({x:x, y:y});
         this.load.on('progress', this.onProgress, this )
     }
 
     onProgress(value){
-        let w = this.CONFIG.width - 2*this.progress.x;
-        let h = 36;
-
-        this.progress.clear();
-        this.progress.fillStyle('0xFFFFFF', 1)
-        this.progress.fillRect(0,0, w*value, h)
-
-        this.border.clear()
-        this.border.lineStyle(4, '0x4D5699')
-        this.border.strokeRect(0,0, w*value, h);
-
         this.txt_progress.setText(Math.round(value * 100) + '%')
     }
 

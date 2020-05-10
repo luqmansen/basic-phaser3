@@ -10,3 +10,7 @@ export function importAll(r) {
     r.keys().map((item, index) => { assets[item.replace('./', '')] = r(item); });
     return assets;
   }
+
+export function randInt(min, max) {
+    return Math.random() * (max - min) + min;
+}

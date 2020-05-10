@@ -2,38 +2,25 @@
 
 export default class PhaserText {
 
-    constructor(ctx, x, y, string, style, origin) {
+    constructor(ctx, x, y, string, fontsize, origin) {
         this.text = string
 
-        this.style = this.initStyle(style);
+        this.style = this.initStyle(fontsize);
         this.origin = this.initOrigin(origin);
         this._x = x;
         this._y = y;
         this._string = string;
         this._origin = origin;
         this._ctx = ctx;
-        this._style = style;
         this._obj = this.createText();
     }
 
-    initStyle(key){
+    initStyle(fontsize){
         let style = {
             fontFamily  : 'ClickPixel',
-            fontsize    : 32,
+            fontsize    : fontsize,
             color       : '0xFFFFFF',
             align       : 'center'
-        }
-
-        switch (key.toLowerCase()) {
-
-            case 'title':
-                style.fontsize = 30;
-                break
-            case 'standard':
-                style.fontsize = 20;
-                break
-            case 'game-label':
-                style.fontsize = 16;
         }
         return style
     }

@@ -1,19 +1,20 @@
-import Phaser from 'phaser'
+import Phaser from "phaser";
 
 export default {
-    type            : Phaser.AUTO,
-        parent          : 'phaser-app',
-        title           : 'Phaser-Boilerplate', // CHANGE ME
-        url             : 'https://github.com/luqmansen/phaser3-boilerplate', // CHANGE ME
-        width           : 256,
-        height          : 272,
-        pixelArt        : true,
-        physics         : {
-            default : "arcade",
-            arcade  :{
-                debug : false
-            }
-        }
-    }
-
-  
+  type: Phaser.AUTO,
+  parent: "phaser-app",
+  title: "Space\nCade (^w^)", 
+  url: "https://github.com/luqmansen/space-cade", 
+  width: 500,
+  centerX: 500/2,
+  height: 600,
+  centerY: 600/2,
+  pixelArt: true,
+  physics: {
+    default: "arcade",
+    arcade: {
+      debug: false,
+    },
+  },
+  gameScale: 2
+};

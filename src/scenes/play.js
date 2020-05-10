@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import CONFIG from '../config/config'
 import Beam from '../prefabs/Beam'
 import Explosion from '../prefabs/Explosion'
+import {randInt} from '../prefabs/Helper'
 
 export default class Play extends Phaser.Scene{
 
@@ -12,17 +13,15 @@ export default class Play extends Phaser.Scene{
     init() {
         this.playerSpeed = 200
         this.score = 0
+        this.level = 1
     }
 
 
     create(){
-        this.createAudio()
-        this.bg = this.add.tileSprite(0, 0, CONFIG.width, CONFIG.height,"bg");
-        this.bg.setOrigin(0,0)
-        
+        this.createBG()
         this.createLabel()
 
-
+        this.createAudio()
         this.ship2 = this.add.sprite(CONFIG.width/2 -20, CONFIG.height/2, "ship2")
         this.ship1 = this.add.sprite(CONFIG.width/2 +50, CONFIG.height/2, "ship")
         this.ship3 = this.add.sprite(CONFIG.width/2 -80, CONFIG.height/2, "ship3")
@@ -87,9 +86,9 @@ export default class Play extends Phaser.Scene{
     } 
 
     update(){
-        this.moveShip(this.ship1, 1);
-        this.moveShip(this.ship2, 1);
-        this.moveShip(this.ship3, 1);
+        this.moveShip(this.ship1, randInt(1,5) * this.level);
+        this.moveShip(this.ship2, randInt(2,7)* this.level);
+        this.moveShip(this.ship3, randInt(3,6));
         this.bg.tilePositionY -= 0.5;
         this.movePlayerManager();
 
@@ -103,6 +102,16 @@ export default class Play extends Phaser.Scene{
             var beam = this.projectiles.getChildren()[i];
             beam.update()
         }
+    }
+
+    
+    createBG(){
+        this.bg = this.add.tileSprite(0, 0, CONFIG.width, CONFIG.height,"bg");
+        this.bg.setOrigin(0,0)
+        this.bg.setDepth(0)
+        this.bg.setScale(CONFIG.gameScale)
+    
+
     }
 
     moveShip(ship, speed){
