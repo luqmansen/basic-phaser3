@@ -1,55 +1,54 @@
+import Phaser from 'phaser'
+import CONFIG from '../config/config'
+import PhaserText from '../prefabs/PhaserText'
+import { importAll } from "../prefabs/Helper";
 
-class Preload extends Phaser.Scene {
+const images = importAll(require.context('../assets/images', false, /\.(png|jpe?g|svg)$/));
+const sprites = importAll(require.context('../assets/sprites', false, /\.(png|jpe?g|svg)$/));
+const sfx = importAll(require.context('../assets/audio/sfx', false, /\.(wav|ogg|mp3)$/));
+const bgm = importAll(require.context('../assets/audio/bgm', false, /\.(wav|ogg|mp3)$/));
+
+
+export default class Preload extends Phaser.Scene {
 
     constructor() {
         super({key: 'Preload', active: false})
     }
 
     init(){
-        this.URL = this.sys.game.URL
-        this.CONFIG = this.sys.game.CONFIG
+        this.CONFIG = CONFIG
     }
 
     preload(){
         this.createBackground();
         this.createLoadingBar()
 
-        // Image
-        this.load.setPath(this.URL + 'src/assets/img')
-        this.load.spritesheet('spr-cat', 'spr-cat.png', {frameWidth:31, frameHeight:33,endFrame:11, margin: 0, spacing: 0})
-        this.load.image('sky',   'sky.png');
-        this.load.image('ground', 'platform.png');
-        this.load.image('star', 'star.png');
-        this.load.image('bomb', 'bomb.png');
-        this.load.image('bg', 'background.png');
+        this.load.image('sky', images['sky.png']);
+        this.load.image('ground', images['platform.png']);
+        this.load.image('star', images['star.png']);
+        this.load.image('bomb', images['bomb.png']);
+        this.load.image('bg', images['background.png']);
 
-        this.load.setPath(this.URL + 'src/assets/spr')
-        this.load.spritesheet('ship', 'ship.png', {frameWidth:16, frameHeight: 16});
-        this.load.spritesheet('ship2', 'ship2.png', {frameWidth:32, frameHeight: 16});
-        this.load.spritesheet('ship3', 'ship3.png', {frameWidth:32, frameHeight: 32});
-        this.load.spritesheet('explosion', 'explosion.png', {frameWidth:16, frameHeight: 16});
-        this.load.spritesheet('power-up', 'power-up.png', {frameWidth:16, frameHeight: 16});
-        this.load.spritesheet('beam', 'ball.png', {frameWidth:99, frameHeight: 94});
+        this.load.spritesheet('spr-cat', sprites['spr-cat.png'], {frameWidth:31, frameHeight:33,endFrame:11, margin: 0, spacing: 0})
+        this.load.spritesheet('ship', sprites['ship.png'], {frameWidth:16, frameHeight: 16});
+        this.load.spritesheet('ship2', sprites['ship2.png'], {frameWidth:32, frameHeight: 16});
+        this.load.spritesheet('ship3', sprites['ship3.png'], {frameWidth:32, frameHeight: 32});
+        this.load.spritesheet('explosion', sprites['explosion.png'], {frameWidth:16, frameHeight: 16});
+        this.load.spritesheet('power-up', sprites['power-up.png'], {frameWidth:16, frameHeight: 16});
+        this.load.spritesheet('beam', sprites['ball.png'], {frameWidth:99, frameHeight: 94});
 
-        this.load.setPath(this.URL + 'src/assets/audio')
-        this.load.audio('audio_beam', 'laserfire01.ogg')
-        this.load.audio('audio_pickup', 'SFX_Pickup_44.mp3')
-        this.load.audio('audio_explosion', 'explosion.wav')
-        this.load.audio('bgm', 'platformer-level-08.mp3')
-
-
-
+        this.load.audio('audio_beam', sfx['laserfire01.ogg'])
+        this.load.audio('audio_pickup', sfx['SFX_Pickup_44.mp3'])
+        this.load.audio('audio_explosion', sfx['explosion.wav'])
+        this.load.audio('bgm', bgm['platformer-level-08.mp3'])
     }
 
     create(){
-        this.scene.start('Play');
         this.createAnimation()
-
+        this.scene.start('Menu');
     }
 
     createLoadingBar(){
-        // this.title = new Text();
-        //Progress text
         this.txt_progress = new PhaserText(
             this,
             this.CONFIG.centerX,
@@ -58,7 +57,6 @@ class Preload extends Phaser.Scene {
             'preload',
             0.5
         )
-        //Progress text
         this.txt_progress = new PhaserText(
             this,
             this.CONFIG.centerX,
@@ -72,8 +70,6 @@ class Preload extends Phaser.Scene {
         let y = this.CONFIG.centerY + 5;
         this.progress = this.add.graphics({x:x, y:y})
         this.border = this.add.graphics({x:x, y:y});
-
-        // Progress callback
         this.load.on('progress', this.onProgress, this )
     }
 

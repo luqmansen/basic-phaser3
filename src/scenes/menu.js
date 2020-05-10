@@ -1,37 +1,38 @@
-class Menu extends Phaser.Scene {
+import Phaser from 'phaser'
+import CONFIG from '../config/config'
+import PhaserText from '../prefabs/PhaserText'
+
+
+export default class Menu extends Phaser.Scene {
 
     constructor() {
         super({key:'Menu', active: false})
     }
 
     init() {
-        this.CONFIG = this.sys.game.CONFIG;
+        this.CONFIG = CONFIG;
     }
 
     create(){
-        // Background
         this.createBackground();
 
-        //Game Title
         this.title = new PhaserText(
             this,
-            this.CONFIG.centerX,
-            this.CONFIG.centerY * 0.3,
-            'Wandering\n  Chonk',
+            this.CONFIG.width/2,
+            this.CONFIG.height/2 * 0.3,
+            'Phaser 3\nBoilerplate',
             'title'
         )
 
-        // Click to play
         this.text = new PhaserText(
             this,
-            this.CONFIG.centerX,
-            this.CONFIG.centerY,
+            this.CONFIG.width/2,
+            this.CONFIG.height/2,
             'click to play',
             'standard'
         );
 
         this.createMouseInput();
-
         this.createKeyboardInput();
 
     }

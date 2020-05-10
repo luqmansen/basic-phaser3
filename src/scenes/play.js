@@ -1,11 +1,15 @@
-class Play extends Phaser.Scene{
+import Phaser from 'phaser'
+import CONFIG from '../config/config'
+import Beam from '../prefabs/Beam'
+import Explosion from '../prefabs/Explosion'
+
+export default class Play extends Phaser.Scene{
 
     constructor() {
         super({key: 'Play', active: false});
     }
 
     init() {
-        this.CONFIG = this.sys.game.CONFIG;
         this.playerSpeed = 200
         this.score = 0
     }
@@ -13,18 +17,18 @@ class Play extends Phaser.Scene{
 
     create(){
         this.createAudio()
-        this.bg = this.add.tileSprite(0, 0, this.CONFIG.width, this.CONFIG.height,"bg");
+        this.bg = this.add.tileSprite(0, 0, CONFIG.width, CONFIG.height,"bg");
         this.bg.setOrigin(0,0)
         
         this.createLabel()
 
 
-        this.ship2 = this.add.sprite(this.CONFIG.width/2 -20, this.CONFIG.height/2, "ship2")
-        this.ship1 = this.add.sprite(this.CONFIG.width/2 +50, this.CONFIG.height/2, "ship")
-        this.ship3 = this.add.sprite(this.CONFIG.width/2 -80, this.CONFIG.height/2, "ship3")
+        this.ship2 = this.add.sprite(CONFIG.width/2 -20, CONFIG.height/2, "ship2")
+        this.ship1 = this.add.sprite(CONFIG.width/2 +50, CONFIG.height/2, "ship")
+        this.ship3 = this.add.sprite(CONFIG.width/2 -80, CONFIG.height/2, "ship3")
 
         
-        this.player = this.physics.add.sprite(this.CONFIG.width /2-8, this.CONFIG.height -64, "cat")
+        this.player = this.physics.add.sprite(CONFIG.width /2-8, CONFIG.height -64, "cat")
         this.player.play("cat")
         this.player.setCollideWorldBounds(true)
 
@@ -34,7 +38,7 @@ class Play extends Phaser.Scene{
         for (var i = 0; i<= maxObjects; i++){
             var powerUp = this.physics.add.sprite(16,16, "power-up")
             this.powerUps.add(powerUp)
-            powerUp.setRandomPosition(0,0, this.CONFIG.width, this.CONFIG.height)
+            powerUp.setRandomPosition(0,0, CONFIG.width, CONFIG.height)
 
             if (Math.random() > 0.5){
                 powerUp.play('red')
@@ -103,14 +107,14 @@ class Play extends Phaser.Scene{
 
     moveShip(ship, speed){
         ship.y += speed
-        if (ship.y > this.CONFIG.height) {
+        if (ship.y > CONFIG.height) {
             this.resetShipPos(ship )
         }
     }
 
     resetShipPos(ship){
         ship.y = 0;
-        ship.x = Phaser.Math.Between(0, this.CONFIG.width);
+        ship.x = Phaser.Math.Between(0, CONFIG.width);
     }
 
     destroyShip(pointer, gameObject) {
@@ -164,8 +168,8 @@ class Play extends Phaser.Scene{
     }
 
     resetPlayer(){
-        var x = this.CONFIG.width / 2 - 8
-        var y = this.CONFIG.height + 64
+        var x = CONFIG.width / 2 - 8
+        var y = CONFIG.height + 64
         this.player.enableBody(true,x,y, true, true);
 
         this.player.alpha = 0.5

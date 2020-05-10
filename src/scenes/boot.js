@@ -1,18 +1,18 @@
-class Boot extends Phaser.Scene {
+import Phaser from 'phaser'
+import {importAll} from '../prefabs/Helper'
+
+const fonts = importAll(require.context('../assets/fonts', false, /\.(png|jpe?g|svg|xml)$/));
+  
+
+export default class Boot extends Phaser.Scene {
 
     constructor() {
         super({key: 'Boot', active: true})
     }
 
-    init(){
-        this.URL = this.sys.game.URL
-        this.CONFIG = this.sys.game.CONFIG
-    }
 
     preload(){
-        // Bitmap font for preload scenes
-        this.load.setPath(this.URL + 'src/assets/fonts')
-        this.load.bitmapFont('ClickPixel', 'ClickPixel.png', 'click.xml')
+        this.load.bitmapFont('ClickPixel', fonts['ClickPixel.png'], fonts['click.xml'])
     }
 
     create(){

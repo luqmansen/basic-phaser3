@@ -1,13 +1,12 @@
 
 
-class PhaserText {
+export default class PhaserText {
 
     constructor(ctx, x, y, string, style, origin) {
         this.text = string
 
         this.style = this.initStyle(style);
         this.origin = this.initOrigin(origin);
-
         this._x = x;
         this._y = y;
         this._string = string;
