@@ -13,3 +13,7 @@ Simple HTML5 Games built with [Phaser3](phaser.io)
 | `npm install` | Install project dependencies |
 | `npm start` | Build project and open web server running project |
 | `npm run build` | Builds code bundle with production settings (minification, uglification, etc..) |
+
+
+## Todo 
+- Refactor spaghetti code
