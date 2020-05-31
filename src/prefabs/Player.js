@@ -71,11 +71,39 @@ export default class Player extends Entity {
       callbackScope: this,
       loop: false,
     });
+    if (this.ctx.live == 0) {
+      this.ctx.level = 1;
+    }
+    if (this.ctx.live >= 1) {
+      this.ctx.live -= 1;
+    }
   }
 
   pickPowerUp(player, powerUp) {
     powerUp.disableBody(true, true);
     this.ctx.sound.add("audio_pickup").play();
+    this.ctx.live++;
+    this.pickupNotif();
+    this.ctx.time.addEvent({
+      delay: 300,
+      callback: this.removePickupNotif,
+      callbackScope: this,
+      loop: false,
+    });
+  }
+
+  removePickupNotif() {
+    this.ctx.pickupNotif.destroy();
+  }
+
+  pickupNotif() {
+    this.ctx.pickupNotif = this.ctx.add.bitmapText(
+      (CONFIG.width * 1) / 3,
+      (CONFIG.height * 1) / 3,
+      "ClickPixel",
+      "LIVE +1",
+      50
+    );
   }
 
   resetPlayer() {

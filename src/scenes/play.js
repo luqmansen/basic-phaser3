@@ -17,6 +17,12 @@ export default class Play extends Phaser.Scene {
       previous: 0,
     };
     this.level = 1;
+    this.live =3;
+    this.state = {
+      play: true,
+      gameOver: false,
+      pause: false
+    };
   }
 
   create() {
@@ -46,6 +52,10 @@ export default class Play extends Phaser.Scene {
       CONFIG.height - 64,
       "cat"
     );
+    this.player.scaleEntity(1.5)
+    this.ship1.setScale(1.5)
+    this.ship2.setScale(1.5)
+    this.ship3.setScale(1.5)
 
     this.powerUps = this.physics.add.group();
 
@@ -121,6 +131,7 @@ export default class Play extends Phaser.Scene {
     }
 
     this.levelManager();
+    this.liveManager();
   }
 
   createBG() {
@@ -147,11 +158,6 @@ export default class Play extends Phaser.Scene {
     gameObject.play("explode");
   }
 
-  pickPowerUp(player, powerUp) {
-    powerUp.disableBody(true, true);
-    this.pickupSound.play();
-  }
-
   hitEnemy(projectile, enemy) {
     var explosion = new Explosion(this, enemy.x, enemy.y).setScale(2);
 
@@ -169,15 +175,55 @@ export default class Play extends Phaser.Scene {
     this.levelLabel.text = "LEVEL " + this.level;
   }
 
+  liveManager(){
+    if (this.live == 0){
+      this.liveLabel.text = "LIVE 0 X";
+      this.gameOver();
+    } else{
+      this.liveLabel.text = "LIVE " + this.live + " X";
+    }
+  }
+
   createLabel() {
-    this.scoreLabel = this.add.bitmapText(10, 5, "ClickPixel", "SCORE", 16);
+    this.scoreLabel = this.add.bitmapText(10, 5, "ClickPixel", "SCORE", 32);
     this.levelLabel = this.add.bitmapText(
-      CONFIG.width * (3 / 4),
+      CONFIG.width * (4 / 5) - 10,
       5,
       "ClickPixel",
       "LEVEL",
-      16
+      32
     );
+    this.liveLabel = this.add.bitmapText(
+      CONFIG.width * (2 / 5),
+      5,
+      "ClickPixel",
+      "LIVE",
+      32
+    );
+  }
+
+  gameOver(){
+    this.gameOverFlyingText()
+    this.time.addEvent({
+      delay: 5000,
+      callback: this.backToMenu,
+      callbackScope: this,
+      loop: false,
+    });
+  }
+
+  gameOverFlyingText(){
+    this.gameOverLabel = this.add.bitmapText(
+      CONFIG.width * 1/3,
+      CONFIG.height * 1/3,
+      "ClickPixel",
+      "GAME\nOVER",
+      100
+    );
+  }
+
+  backToMenu(){
+    this.scene.start("Menu");
   }
 
 
