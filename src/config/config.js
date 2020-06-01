@@ -18,6 +18,6 @@ export default {
     },
   },
   gameScale: 2,
-  IS_DEV: true,
+  IS_DEV: false,
   sound_on: true,
 };
